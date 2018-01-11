@@ -22,7 +22,7 @@ var PMainLayer = cc.Layer.extend({
 
         this.loadLayout();
         this.loadMenu();
-        this.loadBlock(cc.winSize.width / 2,120);
+        this.loadBlock(cc.winSize.width / 2,cc.winSize.height / 2 - 150);
         this.loadCharacter();
         this.registerEvent();
         this.loadBlock(this.blocks[this.currentIndex].getPositionX(),this.blocks[this.currentIndex].getPositionY() + this.blocks[this.currentIndex].height + this.baseRange * 2);
@@ -133,7 +133,7 @@ var PMainLayer = cc.Layer.extend({
                 layoutMoveBy = new cc.MoveBy(0.5,cc.p(0,-(currentBlock.height - this.baseRange * 2)));
                 this.loadBlock(currentBlock.getPositionX(),currentBlock.getPositionY() + currentBlock.height + this.baseRange * 2);
             }else {
-                layoutMoveBy = new cc.MoveBy(0.5,cc.p(-currentBlock.width,0));
+                layoutMoveBy = new cc.MoveBy(0.5,cc.p(-currentBlock.width - this.baseRange * 2,0));
                 this.loadBlock((currentBlock.getPositionX() + currentBlock.width + this.baseRange * 4),currentBlock.getPositionY());
             }
             this.layout.runAction(layoutMoveBy);
