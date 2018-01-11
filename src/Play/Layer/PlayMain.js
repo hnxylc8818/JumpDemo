@@ -11,11 +11,13 @@ var PMainLayer = cc.Layer.extend({
     score:0,
     layout:null,
     direction:"y",
+    isBoom:false,
     ctor: function () {
         this._super();
 
         this.blocks = [];
         this.direction = "y";
+        cc.spriteFrameCache.addSpriteFrames(res.PMBoom_plist);
     },
     onEnter: function () {
         this._super();
@@ -104,6 +106,7 @@ var PMainLayer = cc.Layer.extend({
         }
         var rotateBy = new cc.RotateBy(0.4,360);
         target.currentIndex++;
+        cc.audioEngine.playEffect(res.JumpEffect_mp3);
         target.character.runAction(new cc.sequence(new cc.Spawn(jumpBy,rotateBy),cc.callFunc(function () {
             target.checkEffectiveArea();
         },this)));
@@ -128,6 +131,14 @@ var PMainLayer = cc.Layer.extend({
                 this.direction = "x";
             }else {
                 this.direction = "y";
+            }
+            if (this.currentIndex % 4 === 0){
+                this.isBoom = true;
+            }else {
+                this.isBoom = false;
+            }
+            if (this.isBoom){
+                this.createBoomAction();
             }
             if (this.direction === "y"){
                 layoutMoveBy = new cc.MoveBy(0.5,cc.p(0,-(currentBlock.height - this.baseRange * 2)));
@@ -154,5 +165,21 @@ var PMainLayer = cc.Layer.extend({
                 this.addChild(gameOverLayer,3);
             },0.5);
         }
+    },
+    createBoomAction:function () {
+        var frames = [];
+        for (var i = 0;i<11;i++){
+            var name = "boom" + i +".png";
+            var frame = cc.spriteFrameCache.getSpriteFrame(name);
+            frames.push(frame);
+        }
+        var animation = new cc.Animation(frames,0.15);
+        animation.setRestoreOriginalFrame(true);
+        var animate = new cc.Animate(animation);
+        this.character.runAction(animate);
+        cc.audioEngine.playEffect(res.BoomEffect_mp3);
+        this.score--;
+        this.scoreText.setString("得分：" + this.score);
+        cc.log("分数减一");
     }
 });
