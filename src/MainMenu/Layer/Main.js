@@ -17,6 +17,7 @@ var MainLayer = cc.Layer.extend({
             function () {
                 cc.log("点击开始游戏按钮");
                 cc.audioEngine.playEffect(res.ClickEffect_mp3);
+                cc.audioEngine.setMusicVolume(cc.audioEngine.getMusicVolume() - 0.8);
                 cc.director.runScene(new PlayScene());
             }.bind(this)
         );

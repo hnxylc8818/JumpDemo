@@ -31,6 +31,7 @@ var PMReplayLayer = cc.LayerColor.extend({
             switch (type){
                 case ccui.Widget.TOUCH_ENDED:
                     cc.audioEngine.playEffect(res.ClickEffect_mp3);
+                    cc.audioEngine.playMusic(res.BgMusic_mp3);
                     cc.director.runScene(new PlayScene());
                     break;
             }

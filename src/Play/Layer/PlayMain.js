@@ -150,6 +150,7 @@ var PMainLayer = cc.Layer.extend({
             this.layout.runAction(layoutMoveBy);
         }else {
             cc.log("没有跳到block有效区域内，游戏结束");
+            cc.audioEngine.playMusic(res.GameOverMusic_mp3);
             this.unRegisterEvent();
             if (characterY > blockY || characterX > blockX){
                 this.character.setTexture(res.PMCharacter_fall_png);
